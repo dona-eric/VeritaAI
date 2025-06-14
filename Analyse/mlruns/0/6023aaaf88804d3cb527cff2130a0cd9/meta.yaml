@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/6023aaaf88804d3cb527cff2130a0cd9/artifacts
+end_time: 1749855117099
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6023aaaf88804d3cb527cff2130a0cd9
+run_name: SVM
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749854906288
+status: 3
+tags: []
+user_id: dona-erick
