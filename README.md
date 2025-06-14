@@ -21,7 +21,7 @@ Ce projet a pour objectif de concevoir un système de détection de fausses nouv
 - Linear SVM (LinearSVC)
 
 ### 4. Suivi des expériences avec MLflow
-
+https://github.com/dona-eric/System-detection-of-the-Fake-and-True-News/blob/master/News%20_dataset/images/mlflow.png
 
 * Installation de MLflow : `pip install mlflow`
 * Lancement du serveur MLflow : `mlflow ui`
