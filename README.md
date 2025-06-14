@@ -21,7 +21,14 @@ Ce projet a pour objectif de concevoir un système de détection de fausses nouv
 - Linear SVM (LinearSVC)
 
 ### 4. Suivi des expériences avec MLflow
-file:///home/dona-erick/Images/Captures%20d%E2%80%99%C3%A9cran/Capture%20d%E2%80%99%C3%A9cran%20du%202025-06-14%2005-55-22.png
+
+
+* Installation de MLflow : `pip install mlflow`
+* Lancement du serveur MLflow : `mlflow ui`
+* Enregistrement des expériences MLflow dans le répertoire `mlruns/`
+* Utilisation de `mlflow.start_run()` pour chaque exécution d'entraînement
+* Enregistrement des modèles et des métriques dans `mlartifacts/`
+### 2. Entraînement des modèles
 Pour chaque modèle entraîné :
 
 * Enregistrement automatique des métriques (à l'aide de `mlflow.log_metric`)
