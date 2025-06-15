@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/84d1a3fd16834e0ca11df9212c729345/artifacts
+end_time: 1749880669376
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 84d1a3fd16834e0ca11df9212c729345
+run_name: Decision Tree
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749880663516
+status: 3
+tags: []
+user_id: dona-erick
