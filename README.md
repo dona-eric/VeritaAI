@@ -39,6 +39,7 @@ Pour chaque modèle entraîné :
 Chaque exécution est accessible via l'interface de suivi MLflow :
 `http://127.0.0.1:5000/#/experiments/0`
 
+[Execution date and performances of each models training](https://github.com/dona-eric/System-detection-of-the-Fake-and-True-News/blob/master/News%20_dataset/images/experiment_mlflow.webm)
 ---
 
 ## 🤖 Modèles entraînés et évalués
