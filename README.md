@@ -22,6 +22,7 @@ Ce projet a pour objectif de concevoir un système de détection de fausses nouv
 
 ### 4. Suivi des expériences avec MLflow
 
+![Experience with Mlflow ](https://github.com/dona-eric/System-detection-of-the-Fake-and-True-News/blob/master/News%20_dataset/images/mlflow.png)
 
 * Installation de MLflow : `pip install mlflow`
 * Lancement du serveur MLflow : `mlflow ui`
@@ -139,4 +140,4 @@ Après comparaison des métriques, **LinearSVC** a été retenu comme modèle fi
 
 ## 📅 Auteur
 
-* Projet réalisé par \[Ton Nom] dans le cadre d'une exploration pratique de la détection de fake news avec machine learning et MLflow (juin 2025).
+* Projet réalisé par \[KOULODJI Dona Eric] dans le cadre d'une exploration pratique de la détection de fake news avec machine learning.
