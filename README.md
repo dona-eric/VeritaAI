@@ -8,6 +8,19 @@ Ce projet a pour objectif de concevoir un système de détection de fausses nouv
 
 ---
 
+## Architecture du projet
+[NewsAPI] → [Script Python avec cron / scheduler] → [Base PostgreSQL]
+                                           ↓
+                                    (stockage structuré)
+                                           ↓
+                              [Requêtes d’analyse / ML]
+                                            ↓
+                                      [MLflow Tracking]
+                                            ↓
+                                      [Modèles ML]
+                                            ↓
+                                  [API Web (Flask/FastAPI)]
+
 ## 🔧 Mise en place technique
 
 ### 1. Prétraitement & Vectorisation
