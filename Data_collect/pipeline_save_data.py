@@ -14,7 +14,7 @@ DB_PARAMS = {
     "password": os.getenv("password"),
     "port": os.getenv("port")
 }
-file = "True_news"
+file = "True_news.csv"
 def automatise_data_save():
     try:
         connection_data = psycopg2.connect(**DB_PARAMS)
