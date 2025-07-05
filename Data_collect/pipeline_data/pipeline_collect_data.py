@@ -28,7 +28,6 @@ CATEGORY = [
 
 # date of the last update
 today = date.today().isoformat()
-#CATEGORIES = ["general", "technology", "politics", "business", "entertainment", "sports", "health", "AI"]
 DB_PARAMS = {
     "host": os.getenv("host"),
     "dbname": os.getenv("dbname"),
@@ -49,7 +48,7 @@ def fetch_and_store():
             cursor_connect.execute("""
                 INSERT INTO news (title, description, author, content, published_at, source, category)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT DO NOTHING
+                    ON CONFLICT DO NOTHING 
                     """, (
                         article.get("title"),
                         article.get("description"),

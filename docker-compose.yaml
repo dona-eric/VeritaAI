@@ -1,0 +1,10 @@
+version: "3.10"
+
+services:
+  pipeline:
+    build: .
+    container_name: news_pipeline
+    env_file: .env
+    volumes:
+      - .:/app
+    restart: always
