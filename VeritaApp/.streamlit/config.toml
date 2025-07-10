@@ -1,0 +1,7 @@
+showSidebarNavigation = True
+[theme]
+primaryColor = "#336699"                # Bleu professionnel
+backgroundColor = "#f5f7fa"             # Fond très clair
+secondaryBackgroundColor = "#e6ecf2"    # Fond clair pour les widgets
+textColor = "#1c1e21"                   # Texte foncé pour bonne lisibilité
+font = "serif"
