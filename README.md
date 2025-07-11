@@ -24,10 +24,14 @@
 ---
 
 ## 🎯 Aperçu du projet
-![VeritaAI](http://github.com/dona-eric/VeritaAI/blob/master/VeritaApp/assets/verita.png)
+
+http://github.com/dona-eric/VeritaAI/blob/master/VeritaApp/assets/verita.png
+
+
 La prolifération des fausses nouvelles ("fake news") représente une menace croissante pour l'information et la société. Ces contenus trompeurs peuvent manipuler l'opinion publique et semer la désinformation.
 
 **Verita** est un projet conçu pour adresser ce problème en développant un système intelligent capable de détecter automatiquement les fausses nouvelles à l'aide d'algorithmes de machine learning. J'ai intégré MLflow pour un suivi, une comparaison et une gestion efficaces des expériences de modèles, assurant ainsi la reproductibilité et l'optimisation des performances.
+
 ---
 ### 🌟 Objectifs principaux
 
