@@ -103,7 +103,7 @@ st.markdown("""
         /* Pied de page */
         .footer {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.85em;
+            font-size: 0.55em;
             text-align: center;
             color: #777777;
             margin-top: 70px;
@@ -129,8 +129,9 @@ st.markdown("""
         }
     </style>
     """, unsafe_allow_html=True)
+
 def help_page():
-    st.markdown("<h1 class='section-title'>📘 Centre d'aide Verita</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='section-title'>📘 Help Verita</h1>", unsafe_allow_html=True)
     st.markdown("<p class='subtitle'>Retrouvez ici les informations essentielles pour tirer le meilleur parti de votre application Verita.</p>", unsafe_allow_html=True)
     st.markdown("---")
 
@@ -164,12 +165,12 @@ def help_page():
     st.markdown("<div class='contact-info'>", unsafe_allow_html=True)
     st.markdown("<h3><strong>Besoin d'aide supplémentaire ?</strong></h3>", unsafe_allow_html=True)
     st.markdown("Si vous avez des questions, des suggestions, ou rencontrez des problèmes, n'hésitez pas à nous contacter :")
-    st.markdown("Support:<a href='mailto:donaerickoulodji@gmil.com'>donaerickoulodji@gmail.com</a>")
+    st.markdown("Support:<a href='mailto:donaerickoulodji@gmail.com'>donaerickoulodji@gmail.com</a>")
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("Retour à l'Accueil", key="back_to_home_help"): # Clé unique
-        st.session_state.page = "home"
+    if st.button("Back to home", key="back_to_home_help"): # Clé unique
+        st.session_state.menu = "Home"
         st.rerun()
 
 if __name__ == "__main__":

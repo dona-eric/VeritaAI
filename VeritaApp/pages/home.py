@@ -11,17 +11,18 @@ st.markdown("""
     /* Styles généraux pour le corps et les éléments Streamlit */
     html, body, .stApp {
         /* Dégradé de gris élégant */
-        background: linear-gradient(135deg, #f9f9f6 0%, #dbe9f4 100%);
+        background: linear-gradient(135deg, #b9b9ae 0%, #92a7aa91 40%);
         font-family: 'Montserrat', sans-serif; /* Police moderne et lisible */
-        color: #333330; /* Texte gris foncé pour la lisibilité */
+        color: #2e3131a6;        
         line-height: 1.6;
     }
     .main {
         background: none; /* Permet au dégradé du body de transparaître */
         padding: 20px; /* Ajoute un peu de padding au contenu principal */
     }
-    .css-h5rpku { /* Sélecteur spécifique pour le conteneur principal du contenu Streamlit */
-        background-color: rgba(255, 255, 255, 0.9); /* Fond blanc semi-transparent pour les sections de contenu */
+    .css-h5rpku { 
+        /* Sélecteur spécifique pour le conteneur principal du contenu Streamlit */
+        background-color: rgba(60, 68, 64, 0.534); /* Fond blanc semi-transparent pour les sections de contenu */
         border-radius: 12px;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Ombre douce et professionnelle */
         padding: 30px;
@@ -35,7 +36,7 @@ st.markdown("""
         align-items: center;
         text-align: center;
         padding: 40px 0;
-        background-color: rgba(255, 255, 255, 0.95); /* Fond blanc presque opaque pour l'en-tête */
+        background-color: rgba(151, 68, 53, 0.075); /* Fond blanc presque opaque pour l'en-tête */
         border-radius: 15px;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée pour l'élément clé */
         margin-bottom: 50px;
@@ -47,7 +48,7 @@ st.markdown("""
         max-width: 180px; /* Taille adéquate */
         height: auto;
         border-radius: 50%; /* Rendre le logo rond */
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Ombre légère autour du logo */
+        box-shadow: 0 0 15px rgba(0, 0, 0, 2.1); /* Ombre légère autour du logo */
         margin-bottom: 25px;
         transition: transform 0.3s ease-in-out;
     }
@@ -60,6 +61,7 @@ st.markdown("""
         font-family: 'Playfair Display', serif; /* Police élégante pour le titre */
         font-size: 3.8em;
         font-weight: 700;
+        text-align: center;
         color: #3f51b5; /* Un bleu plus profond et élégant (Material Design Blue 500) */
         margin-bottom: 10px;
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08); /* Ombre subtile */
@@ -142,7 +144,7 @@ st.markdown("""
     /* Pied de page */
     .footer {
         font-family: 'Montserrat', sans-serif;
-        font-size: 0.85em;
+        font-size: 1.55em;
         text-align: center;
         color: #777777;
         margin-top: 70px;
@@ -175,7 +177,7 @@ def home_page():
 
     try:
         # ----- CHARGEMENT DU LOGO -----
-        logo_path = "../Fake_News/VeritaApp/assets/veritaAI.png"
+        logo_path = "../Fake_News/VeritaApp/assets/verita.png"
         logo = Image.open(logo_path)
         st.image(logo, use_container_width=True, width=200, clamp=False,
                 channels="BGR",output_format="PNG", caption="")
@@ -198,8 +200,9 @@ def home_page():
         "  Votre assistant intelligent pour distinguer le vrai du faux dans l'actualité."
         "</div>", unsafe_allow_html=True)
 
-    st.write("---")
+    st.markdown("</div>", unsafe_allow_html=True)
 
+        
     st.markdown("<p class='section-title'>Pourquoi utiliser Verita ?</p>", unsafe_allow_html=True)
     st.write("""
         1.  **Saisissez ou collez votre information :** Qu'il s'agisse d'un article, d'un post de réseau social ou d'un simple texte.
@@ -208,12 +211,20 @@ def home_page():
         """)
 
     st.markdown("<p class='section-title'>Prêt à commencer ?</p>", unsafe_allow_html=True)
-    st.write("Cliquez sur le bouton ci-dessous pour lancer l'analyse d'une information.")
+    st.write("Click Here !.")
+
+    if st.session_state.role == "user" and st.session_state.get("user_name"):
+        st.write(f"Bienvenue **{st.session_state.user_name}** ! Vous êtes connecté en tant que **{st.session_state.role.title()}**.")
+    elif st.session_state.role in ["admin", "super-admin"] and st.session_state.get("admin_email"):
+        st.write(f"Bienvenue ! Vous êtes connecté en tant que **{st.session_state.role.title()}** ({st.session_state.admin_email}).")
+    else:
+        st.write(f"Bienvenue ! Vous êtes connecté en tant que **{st.session_state.role.title()}**.")
 
 
-    if st.button("Analyse 📈"):
-        st.session_state["menu"] = "analyse"
+    if st.button("Analyseur 📈"):
+        st.session_state.menu = "Analyse"
         st.rerun()
+
     #st.write("---")
 
     st.markdown(f'<div class="footer"> © {datetime.now().year} VeritaAI- Tous droit réservés</div>',

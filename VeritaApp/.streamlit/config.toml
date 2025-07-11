@@ -1,4 +1,4 @@
-showSidebarNavigation = True
+showSidebarNavigation = False
 [theme]
 primaryColor = "#336699"                # Bleu professionnel
 backgroundColor = "#f5f7fa"             # Fond très clair

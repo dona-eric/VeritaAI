@@ -53,9 +53,9 @@ st.markdown("""
 
     /* Style du logo */
     .logo-img {
-        max-width: 180px; /* Taille adéquate */
-        height: auto;
-        border-radius: 50%; /* Rendre le logo rond */
+        max-width: 80px; /* Taille adéquate */
+        height: 50px;
+        border-radius: 0%; /* Rendre le logo rond */
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Ombre légère autour du logo */
         margin-bottom: 25px;
         transition: transform 0.3s ease-in-out;
@@ -78,7 +78,7 @@ st.markdown("""
     /* Sous-titres */
     .subtitle {
         font-family: 'Montserrat', sans-serif;
-        font-size: 1.2em;
+        font-size: 1.5em;
         color: #555555;
         max-width: 700px;
         line-height: 1.7;
@@ -209,43 +209,90 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 def main():
-    # Session state pour suivre la connexion et le rôle
+    # initialisation des roles de connexion
     if "authenticated" not in st.session_state:
         st.session_state.authenticated = False
+    if "role" not in st.session_state:
         st.session_state.role = "user"
+    if "role_selected" not in st.session_state:
+        st.session_state.role_selected = False
+    if "email_verified" not in st.session_state:
+        st.session_state.email_verified = False
+
 
     # Sélection du rôle utilisateur
     if "role_selected" not in st.session_state:
-        st.session_state.role_selected = False
-        role = st.selectbox("Sélectionnez votre rôle :", ["user", "admin", "super-admin"])
-        if st.button("Confirmed"):
+        role = st.selectbox("Sélectionnez votre rôle :", ["User", "Admin", "Super-Admin"])
+        if st.button("Confirmed", type="primary"):
             st.session_state.role = role
             st.session_state.role_selected = True
-            if role == "user":
-                st.experimental_rerun()
-    else:
-        # Si user, exiger l'authentification d'abord
-        if st.session_state.role == "user":
+            st.rerun()
+        return
+    if st.session_state.role == "user":
             if not st.session_state.authenticated:
                 login_page()
-                st.stop()
+                return
+            else:
+                show_navigation_menu()
+
+    elif st.session_state.role in ["admin", "super-admin"]:
+        if not st.session_state.email_verified:
+            # Vérification email pour admin/super-admin
+            verify_admin_email()
+            return
         else:
-            analyse_page() 
+            # Admin vérifié - Accès direct au menu
+            show_navigation_menu()
 
-        # Menu de navigation
-        menu = st.sidebar.selectbox(
-            "📂 Menu",
-            ("🏠 Home", "📊 Analyse", "❓ Help", "🔐 Se connecter"),
-            index=1 if st.session_state.get("menu") == "analyse" else 0
-        )
+def verify_admin_email():
+    """Vérification email pour admin/super-admin"""
+    st.title(f"Vérification - {st.session_state.role.title()}")
+    st.write("Veuillez vérifier votre email pour accéder aux fonctionnalités d'administration.")
+    
+    email = st.text_input("Email", placeholder="admin@exemple.com", label="Entrer votre email")
+    
+    if st.button("Verification State", type="primary"):
+        if email and "@" in email:  # Validation basique
+            st.session_state.email_verified = True
+            st.session_state.admin_email = email
+            st.success(f"Email vérifié ! Bienvenue {st.session_state.role}.")
+            st.rerun()
+        else:
+            st.error("Veuillez saisir un email valide")
 
-        if menu == "🏠 Home":
-            home_page()
-        elif menu == "📊 Analyse":
-            analyse_page()
-        elif menu == "❓ Help":
-            help_page()
-        elif menu == "🔐 Se connecter":
-            login_page()
+def show_navigation_menu():
+
+    """Affiche le menu de navigation pour les utilisateurs authentifiés"""
+    if st.session_state.role == "user":
+    # Informations utilisateur dans la sidebar
+        st.sidebar.title("🗂️ Navigation")
+    #st.sidebar.info(f"**Rôle :** {st.session_state.role.title()}")
+    
+    #if st.session_state.role == "user":
+        #st.sidebar.success("✅ Connecté en tant qu'utilisateur")
+    #else:
+        #st.sidebar.success(f"✅ Email vérifié")
+    
+    # Bouton de déconnexion
+    if st.sidebar.button("🚪 Déconnexion"):
+        # Reset complet de la session
+        st.session_state.authenticated = False
+        st.session_state.role_selected = False
+        st.session_state.email_verified = False
+        st.session_state.role = "user"
+        st.rerun()
+    
+    # Menu de navigation
+    menu_options = ["Home", "Analyse", "Help"]
+    menu = st.sidebar.selectbox("", menu_options)
+    
+    # Routage vers les pages
+    if menu == "Home":
+        home_page()
+    elif menu == "Analyse":
+        analyse_page()
+    elif menu == "Help":
+        help_page()
+
 if __name__=="__main__":
     main()
