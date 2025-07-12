@@ -4,6 +4,7 @@
 ![MLflow](https://img.shields.io/badge/MLflow-tracking-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
+![Sklearn](https://img.shields.io/badge/sklearn-red.svg)
 
 ## 📋 Table des matières
 
@@ -53,6 +54,7 @@ Cette section décrit les étapes clés de la mise en œuvre technique du projet
 - **Suivi MLflow** : Gestion complète des expériences
 - **Modèles multiples** : Comparaison de 4 algorithmes différents
 - **Prétraitement avancé** : Nettoyage et vectorisation TF-IDF
+- **Devéloppement API** : Développé une api qui consomme les modèles de prédiction et affiche les résultats
 
 ### 🔄 En développement
 
@@ -67,22 +69,25 @@ Cette section décrit les étapes clés de la mise en œuvre technique du projet
 
 ```mermaid
 graph TB
-    A[NewsAPI] --> B[Script Python + Scheduler]
+    A[NewsAPI] --> B[Pipeline Python + ORM(SLALCHEMY) + Scheduler]
     B --> C[Base PostgreSQL Supabase]
     C --> D[Prétraitement & Vectorisation]
-    D --> E[Modèles ML]
+    D --> E[Modélisation ML]
     E --> F[MLflow Tracking]
     F --> G[API Web FastAPI]
     G --> H[Interface Streamlit]
+    H --> I[Dockerfile & Docker-compose]
 ```
 
 ### 🔄 Flux de données
 
-1. **Collecte** : Récupération d'articles via NewsAPI
+1. **Collecte** : Récupération d'articles via NewsAPI et Guardian
 2. **Stockage** : Sauvegarde structurée en base PostgreSQL
+3. **EDA** : Analyse exploratoire des données
 3. **Prétraitement** : Nettoyage et vectorisation TF-IDF
 4. **Entraînement** : Modèles ML avec suivi MLflow
-5. **Déploiement** : API web et interface utilisateur
+5. **Evaluation** : Évaluer les modèles avec une validation croisée et sélection du meilleur modèle
+5. **Mise en Production** : API web et interface utilisateur
 
 ---
 
@@ -91,14 +96,15 @@ graph TB
 ### 🐍 Backend & ML
 - **Python 3.8+** : Langage principal
 - **Scikit-learn** : Modèles de machine learning
-- **MLflow** : Suivi et gestion des expériences
-- **Pandas & NumPy** : Manipulation de données
-- **NLTK/spaCy** : Traitement du langage naturel
+- **XGBOOST**
+- **MLflow** : Suivi et Gestion des expériences
+- **Pandas, NumPy, Matplotlib** : Manipulation de données et Visualisation des données
+- **NLTK** : Traitement du langage naturel
 
 ### 🌐 Frontend & API
 - **Streamlit** : Interface utilisateur
-- **Flask/FastAPI** : API REST
-- **HTML/CSS/JavaScript** : Interface web
+- **FastAPI** : API REST
+- **CSS/JavaScript** : Interface web
 
 ### 🗄️ Base de données
 - **PostgreSQL** : Stockage principal
@@ -106,26 +112,37 @@ graph TB
 
 ---
 
+**Visualisation**
+![EDA](https://github.com/dona-eric/VeritaAI/blob/master/mlflow_plots/data_analysis.png)
+
 ## 📊 Modèles et performances
 
 ### 🤖 Modèles entraînés
 
-| Modèle | Accuracy | F1 Score | Temps d'entraînement | Avantages |
-|--------|----------|----------|---------------------|-----------|
-| **Naive Bayes** | 93.7% | 93.7% | ⚡ Rapide | Simple, efficace sur texte |
-| **Régression Logistique** | 98.7% | 98.7% | ⚡ Rapide | Robuste, interprétable |
+| Modèle | Accuracy | F1 Score |CV scores| Temps d'entraînement | Avantages | Rappel | AUC-ROC |
+|--------|----------|----------|---------|----------------------|-----------|---------|---------|
+| **MultinomialNB** | **97.88%** | **97.88%** | 98.00% | 6.4s | Simple,efficace sur texte | 97.98% | 99.84%|
+| **Logistic Regression.** | 98.7% | 98.7% | 99.95% | 3.1min | Robuste, interprétable | 99.97% | 99.99%|
 | **SVM (RBF)** | 99.3% | 99.3% | 🐌 Lent | Puissant, relations non-linéaires |
-| **LinearSVC** | **99.5%** | **99.5%** | ⚡ Rapide | **Meilleur équilibre** |
+| **LinearSVC** | **99.98%** | **99.98%** |**99.97%** | **18.9s** | **Meilleur équilibre** | 99.978% | 99.998%|
+| **RandomForest** | 98.91% | 98.91% | 98.95% | 2.3min | Lent | 98.91% | 99.9992%|
+| **XGboost** | 99.967% | 99.967% | 99.956% | 21.3min | Trop Lent | 99.967% | 99.999% |
 
-### 🏆 Modèle retenu : **LinearSVC**
+### 🏆 Modèles retenus : **LinearSVC**
 
 **LinearSVC** a été sélectionné comme modèle de production pour :
+- **Meilleurs Paramètres du modèles** : {"C":1, "loss":"squared_hinge", "max_iter":1000, "tool":0.001}
 - **Performance exceptionnelle** : 99.5% de précision
 - **Rapidité** : Temps d'inférence optimal
 - **Scalabilité** : Adapté aux grandes volumes de données
 - **Robustesse** : Excellent sur vecteurs TF-IDF
 
 ---
+**Courbe d'apprentissage**
+![Learning Curve](https://github.com/dona-eric/VeritaAI/blob/master/mlflow_plots/learning_curve_linearsvc.png)
+
+**Courbe ROC-AUC**
+![AUC-ROC](https://github.com/dona-eric/VeritaAI/blob/master/Final_Analysis/roc_curve_linearsvc.png)
 
 ## 🛠️ Installation
 
@@ -153,6 +170,8 @@ pip install -r requirements.txt
 
 # Initialiser la base de données 
 python3 connect_database.py
+# Pour lancer le pipeline de collecte de données et de sauvegarde 
+python3 Data_collect/pipeline_connection_database_collect_data/pipeline_collect_data.py
 ```
 
 ### 📦 Dépendances principales
@@ -166,6 +185,7 @@ numpy>=1.24.0
 nltk>=3.8
 psycopg2-binary>=2.9.0
 scheduler
+uvicorn
 sqlalchemy
 ```
 
@@ -177,13 +197,14 @@ sqlalchemy
 
 ```bash
 # Lancer l'interface Streamlit
-streamlit run app.py
+streamlit run VeritaApp/verita.py
 
-# Lancer MLflow UI (optionnel)
+# Lancer MLflow UI 
 mlflow ui
 
-# Entraîner les modèles(en cours de devéloppement)
-python train_models.py
+# Entraîner les modèles
+cd Final_Analysis
+python3 modelisation.py   #pour la modelisation
 ```
 
 ### 🎯 Utilisation de l'interface
@@ -238,7 +259,7 @@ mlflow ui
 # Ouvrir http://127.0.0.1:5000
 ```
 
-![MLflow Interface](https://github.com/dona-eric/VeritaAI/blob/master/News%20_dataset/images/mlflow.png)
+![MLflow Interface](https://github.com/dona-eric/VeritaAI/blob/master/mlflow_plots/mlflow.png)
 
 ---
 
@@ -256,14 +277,14 @@ mlflow ui
 ```
              Prédiction
 Réel      Faux   Vrai
-Faux     4711     22
-Vrai       19   4228
+Faux     4695     0
+Vrai       2   4426
 ```
-
+![Matrice Confusion](https://github.com/dona-eric/VeritaAI/blob/master/mlflow_plots/confusion_matrix_linearsvc.png)
 ### 🔍 Analyse des erreurs
 
-- **Faux positifs** : 22 articles (0.5%)
-- **Faux négatifs** : 19 articles (0.4%)
+- **Faux positifs** : 2 articles (0.5%)
+- **Faux négatifs** : 0 articles (0.4%)
 - **Principaux défis** : Articles satiriques, opinions subjectives
 
 ---
@@ -353,8 +374,8 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 Si vous avez des questions ou des problèmes :
 
 1. 📚 Consultez la [documentation](docs/)
-2. 🐛 Ouvrez une [issue](https://github.com/votre-username/veritaai/issues)
-3. 💬 Rejoignez nos [discussions](https://github.com/votre-username/veritaai/discussions)
+2. 🐛 Ouvrez une [issue](https://github.com/dona-eric/veritaai/issues)
+3. 💬 Rejoignez nos [discussions](https://github.com/dona-eric/veritaai/discussions)
 
 ---
 
@@ -363,6 +384,6 @@ Si vous avez des questions ou des problèmes :
     <strong>⭐ N'hésitez pas à mettre une étoile si ce projet vous a aidé ! ⭐</strong>
   </p>
   <p>
-    Made with ❤️ by <a href="https://github.com/dona-eric">KOULODJI Dona Eric</a>
+    Made by <a href="https://github.com/dona-eric">KOULODJI Dona Eric</a>
   </p>
 </div>
